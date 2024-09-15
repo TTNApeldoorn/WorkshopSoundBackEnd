@@ -40,16 +40,20 @@ More extensive help can be found at [Getting started with your Raspberry Pi](htt
 # Finalising the installation. 
 
  1. Login to your raspberry with the user name and credentials provided with step 6b.
- 2. Ensure that you have connection to the network or internet. type `$ ip a` to see the network setting currectly active. 
+ 2. Ensure that you have connection to the network or internet. type `$ ip a` to see the network setting
+    currectly active. 
     - with `wlan0` you see a ip-address at `inet` when you are connected and received an ip-address over dhcp. 
     - if the command `$ ping 8.8.8.8` repies with a time in ms, Google dns replies so you have internet access. 
- 3. Update the os to teh latest version with `sudo apt update && sudo apt upgrade -y`.
- 4. reboot your Raspberry Pi with the command `sudo shutdown -r 0` and you are good to go to the next phase of the workshop. 
+ 3. Update the os to the latest version with `$ sudo apt update && sudo apt upgrade -y`.
+ 4. reboot your Raspberry Pi with the command `$ sudo shutdown -r 0` and you are good to go to the next phase of the workshop. 
  
 ## Install options. 
 Raspberry Pi 4, 400, and 5 are capeable of booting from USB instead of micro USB. Therefore you may decide to write the image to a USB memory stick in the previous instructions. 
 
 To make the Raspberry Pi 4, 400 or 5 boot from USB follow [this tutorial](https://linuxconfig.org/boot-your-raspberry-pi-from-a-usb-a-tutorial). 
+
+######### SSH!
+
 
 # Install software. 
 For this howto, the following software is required:
@@ -62,4 +66,17 @@ To install git give command `$ sudo apt install git` and type `y`(es) to continu
 As we are only using git to pull the repository used for this workshop, no further configuration is required. 
 
 ## docker.
-blah
+These instructions are taken from: https://dev.to/elalemanyo/how-to-install-docker-and-docker-compose-on-raspberry-pi-1mo
+
+ 1. Install Docker: Docker provides a handy install script for that, just run: `$ curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh`
+ 2. By default, only users who have administrative privileges (root users) can run containers. 
+    If you are not logged in as the root, one option is to use the sudo prefix. However, you could also add your non-root user to the Docker group which will allow it to execute docker commands. 
+    Run the following command: `$ sudo usermod -aG docker [user_name]` (Replace [user_name] with your username).
+    - To verify if you have been added to the `docker` group run `$ groups ${USER}`. The result should contain `docker`.
+ 3. Reboot the Raspberry Pi to let the changes take effect (or log-out and log-in with the user).
+ 4. Install Docker-Compose using apt: run command `$ sudo apt install docker-compose`.
+ 5. Enable the Docker system service to start your containers on boot
+ 6. After reboot. configure your Raspberry Pi to automatically run the Docker system service, whenever it 
+    boots up: `$ sudo systemctl enable docker`.
+ 7. Run Hello World Container. run `$ docker run hello-world`. 
+    Once it goes through all the steps, the output should inform you that your installation appears to be working correctly.
