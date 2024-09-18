@@ -1,6 +1,7 @@
 services:
     nodered:
         image: nodered/node-red:latest
+        user: ":"
         hostname: nodered
         container_name: nodered
         restart: unless-stopped
@@ -42,6 +43,7 @@ services:
 
     grafana:
         image: grafana/grafana-enterprise
+        user: ":"
         container_name: grafana
         hostname: grafana
         restart: unless-stopped
