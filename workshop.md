@@ -59,13 +59,24 @@ To make the Raspberry Pi 4, 400 or 5 boot from USB follow [this tutorial](https:
 For this howto, the following software is required:
 
  - git,
- - docker, docker-compose.
+ - docker, docker-compose,
+ - Node-Red, MariaDB, PHPMyAdmin, Grafana
  
-## git. 
+## Warning. 
+Please note that the configuration used in this workshop lack some security measures. Therefore: **Never run this configuration connected to the internet**.
+ - All aplications run as root. 
+ - User login is configured in Node-Red.
+ - MariaDB root password is set to `replaceme`.
+ - Grafana has a default password. 
+ - No application is configured to be using https.
+
+**Only use this configuration on your local network, behind a firewall.**
+ 
+## Install Git. 
 To install git give command `$ sudo apt install git` and type `y`(es) to continue installing. 
 As we are only using git to pull the repository used for this workshop, no further configuration is required. 
 
-## docker.
+## Install Docker.
 These instructions are taken from: https://dev.to/elalemanyo/how-to-install-docker-and-docker-compose-on-raspberry-pi-1mo
 
  1. Install Docker: Docker provides a handy install script for that, just run: `$ curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh`
@@ -81,33 +92,79 @@ These instructions are taken from: https://dev.to/elalemanyo/how-to-install-dock
  7. Run Hello World Container. run `$ docker run hello-world`. 
     Once it goes through all the steps, the output should inform you that your installation appears to be working correctly.
     
-# Install docker containers
-The docker containers for this workshop are preconfigured using docker-compose. This file is part of the repository that comes with this workshop. We now have to clone this respository on our Raspberry pi.
+## Install Node-Red, MariaDB, PHPMyAdmin and Grafana.
+The docker containers for this workshop are preconfigured using docker-compose. This file *(docker-compose.yml)* is part of the repository that comes with this workshop. We now have to clone this respository on our Raspberry pi.
 
- 1. Clone the repository for this workshop: `$ git clone https://github.com/TTNApeldoorn/WorkshopSoundBackEnd.git`
- 2. Go to the repository you just cloned: `$ cd WorkshopSoundBackEnd`
+ 1. login  in your Raspberry Pi. 
+ 2. Clone the repository for this workshop: `$ git clone https://github.com/TTNApeldoorn/WorkshopSoundBackEnd.git`
+ 3. Go to the directory with repository you just cloned: `$ cd WorkshopSoundBackEnd`
+ 4. *Optional: Make some security settings to your applications. See: Appendix, additional suecurity settings.* 
+ 4. Start the Docker containers with `$ docker-compose up -d`. Now the containers will start as daemon. When the start is successfull the following result will be presented: 
  
- 
- 
- 
-# troubleshooting
+    ```
+    Restarting phpmyadmin ... done
+    Restarting mariadb    ... done
+    Restarting grafana    ... done
+    Restarting nodered    ... done
+    ```
+ - Type `docker ps` to get a list of all containers installed and their status. 
+ - For a more detailed overview of your docker containers type: `docker-compose top`.
 
-## Node-red
+Now the Docker containers are running we can access the individual applications.
 
-`nodered       | Error: EACCES: permission denied, copyfile '/usr/src/node-red/node_modules/node-red/settings.js' -> '/data/settings.js'`
+## Configure Node-Red, MariaDB, PHPMyAdmin and Grafana.
+In the following instructions the ip-address of your Raspberry Pi is presented at `<ip-address>`. The ip-address can be found in console using `ip a`. This command will present a summary of all ethernet interfaces on your Raspberry Pi. As there are at least 6 docker containers the information is cluttered. By sending the output of `ip a` to `grep` we will only display the information we want to see. Type `ip a | grep wlan0` to see only the relevant information of `wlan0`. Replace wlan0 for `eth0` to see th relevant information for the ethernet port. 
 
-`sudo chown 1000 node-red-data/`
- 
-## Grafana
-
+In the following example we see that the Raspberry Pi can be reached over WLAN at ip-address: 192.168.0.153:
 ```
- $ docker-compose up grafana
-Starting grafana ... done
-Attaching to grafana
-grafana       | GF_PATHS_DATA='/var/lib/grafana' is not writable.
-grafana       | You may have issues with file permissions, more information here: http://docs.grafana.org/installation/docker/#migrate-to-v51-or-later
-grafana       | mkdir: can't create directory '/var/lib/grafana/plugins': Permission denied
+$ ip a | grep wlan
+3: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    inet 192.168.0.153/24 brd 192.168.0.255 scope global dynamic noprefixroute wlan0
 ```
 
+### Configuring Node-Red
+Node-Red can be found at `http://<ip-address>:1880` in your browser. When Node-Red is active the following screen is presented:
+ 
+![NodeRed](NodeRed_01.png)
 
-loging admin, admin set passwd 7321jh36
+When you see this screen Node-Red is ready to be used. 
+
+### Configuring MariaDB
+MariaDB is accessed at `<ip-address>:3306` and managed using PHPMyAdmin. 
+
+### Configuring PHPMyAdmin
+PHPMyAdmin can be found at `http://<ip-address>:8086` in your browser. When PHPMyAdmin is active the following screen is presented:
+
+![PHPMyAdmin](PHPMyAdmin_01.png)
+
+To login with PHPMyAdmin to MariaDB use the following credentials:
+```
+   Server: mariaDB
+ Username: root
+ Password: replaceme
+```
+A successfull login will present you the management screen of your MariaDB database: 
+
+![MariaDB](MariaDB_01.png)
+
+When you see this screen PHPMyAdmin and MariaDB are ready to be used.
+
+**It is recommened to create a new user and associated password with the same rights as root in MariaDB and disable root after logging-in as this new user.**
+
+### Configuring Grafana.
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+# Starting and stopping
+To start the Docker containers type `$ cd ~/WorkshopSoundBackEnd && docker-compose up -d`. To stop the Docker containers type `$ cd ~/WorkshopSoundBackEnd && docker-compose down`. 
+
+A gracefull shutdown of your Raspberry Pi using `$ sudo shutdown -h 0` will result in a clean shutdown of your Docker containers. 
+
+
+
