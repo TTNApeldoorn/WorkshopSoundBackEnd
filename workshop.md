@@ -80,3 +80,34 @@ These instructions are taken from: https://dev.to/elalemanyo/how-to-install-dock
     boots up: `$ sudo systemctl enable docker`.
  7. Run Hello World Container. run `$ docker run hello-world`. 
     Once it goes through all the steps, the output should inform you that your installation appears to be working correctly.
+    
+# Install docker containers
+The docker containers for this workshop are preconfigured using docker-compose. This file is part of the repository that comes with this workshop. We now have to clone this respository on our Raspberry pi.
+
+ 1. Clone the repository for this workshop: `$ git clone https://github.com/TTNApeldoorn/WorkshopSoundBackEnd.git`
+ 2. Go to the repository you just cloned: `$ cd WorkshopSoundBackEnd`
+ 
+ 
+ 
+ 
+# troubleshooting
+
+## Node-red
+
+`nodered       | Error: EACCES: permission denied, copyfile '/usr/src/node-red/node_modules/node-red/settings.js' -> '/data/settings.js'`
+
+`sudo chown 1000 node-red-data/`
+ 
+## Grafana
+
+```
+ $ docker-compose up grafana
+Starting grafana ... done
+Attaching to grafana
+grafana       | GF_PATHS_DATA='/var/lib/grafana' is not writable.
+grafana       | You may have issues with file permissions, more information here: http://docs.grafana.org/installation/docker/#migrate-to-v51-or-later
+grafana       | mkdir: can't create directory '/var/lib/grafana/plugins': Permission denied
+```
+
+
+loging admin, admin set passwd 7321jh36
