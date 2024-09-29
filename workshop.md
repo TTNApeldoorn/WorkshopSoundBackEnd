@@ -26,12 +26,16 @@ More extensive help can be found at [Getting started with your Raspberry Pi](htt
  4. select storage medium: SD-card inserted. 
  5. click next.
  6. Now the installer asks for *OS customisation*. Select *EDIT SETTINGS*.
-    a. If required, set the *hostname* of your raspberry.
-    b. **Set you username and password.** *You may want to write these down somewhere.*
-    c. If you want to connect to WiFI, set your SSID and Password. **With this workshop we connect to the WiFi using SSID: xxxx and password: yyyyyy**
-    d. If required, set you locale settings: 
-       - Time zone: Europe/Amsterdam
-       - Keyboard layout: us
+    - With the first tab (General):
+        a. If required, set the *hostname* of your raspberry.
+        b. **Set you username and password.** *You may want to write these down somewhere.*
+        c. If you want to connect to WiFI, set your SSID and Password. **With this workshop we connect to the WiFi using SSID: xxxx and password: yyyyyy**
+        d. If required, set you locale settings: 
+           - Time zone: Europe/Amsterdam
+           - Keyboard layout: us
+    - With the second tab (Services):
+        a. Check "Enable SSH".
+        b. Check "Password authentication"
  7. When all OS settings are set, choose *YES*.
  8. When the installer warns that all content of the selected media will be erased, **ensure you selected the right media**, and click *YES*.
  9. The installer starts downloading the image and write it to the micoSD card. 
@@ -52,7 +56,11 @@ Raspberry Pi 4, 400, and 5 are capeable of booting from USB instead of micro USB
 
 To make the Raspberry Pi 4, 400 or 5 boot from USB follow [this tutorial](https://linuxconfig.org/boot-your-raspberry-pi-from-a-usb-a-tutorial). 
 
-######### SSH!
+### Secure Shell (SSH)
+Secure shell or SSH is a safe and easy way to access your Raspberry-Pi over the network and from your own PC. SSH is 
+In Paragraph **Install OS on micro SD card** we enabled SSH at 6.
+
+SSH can be used from the command-line of any OS. 
 
 
 # Install software. 
@@ -115,7 +123,7 @@ Now the Docker containers are running we can access the individual applications.
 ## Configure Node-Red, MariaDB, PHPMyAdmin and Grafana.
 In the following instructions the ip-address of your Raspberry Pi is presented at `<ip-address>`. The ip-address can be found in console using `ip a`. This command will present a summary of all ethernet interfaces on your Raspberry Pi. As there are at least 6 docker containers the information is cluttered. By sending the output of `ip a` to `grep` we will only display the information we want to see. Type `ip a | grep wlan0` to see only the relevant information of `wlan0`. Replace wlan0 for `eth0` to see th relevant information for the ethernet port. 
 
-In the following example we see that the Raspberry Pi can be reached over WLAN at ip-address: 192.168.0.153:
+In the following example we see that the Raspberry Pi can be reached over WLAN at ip-address: `192.168.0.153`:
 ```
 $ ip a | grep wlan
 3: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
@@ -128,6 +136,10 @@ Node-Red can be found at `http://<ip-address>:1880` in your browser. When Node-R
 ![NodeRed](NodeRed_01.png)
 
 When you see this screen Node-Red is ready to be used. 
+
+#### Setting a custom username and password for Node-Red
+
+/todo toevoegen
 
 ### Configuring MariaDB
 MariaDB is accessed at `<ip-address>:3306` and managed using PHPMyAdmin. 
@@ -167,4 +179,44 @@ To start the Docker containers type `$ cd ~/WorkshopSoundBackEnd && docker-compo
 A gracefull shutdown of your Raspberry Pi using `$ sudo shutdown -h 0` will result in a clean shutdown of your Docker containers. 
 
 
+
+
+
+# Building your sond sensor backend
+
+## Architecture
+
+
+
+## Node-Red
+
+ 1. Add the MQTT node to your flow: drag and drop MQTT-in-node to your flow. 
+
+    ![draganddropmqttinnodetoflow](nraddmqtt.png)
+ 2. Configure your MQTT-in-node by *dubble-clicking* on it.
+ 3. Click on **+** to add a new MQTT broker config. 
+    a. In tab *Connection* set: 
+       - With *Name* set `TTN Soundkit`
+       - With *Server* set `eu1.cloud.thethings.network`
+    b. in tab * Security*  set:
+       - With *Username* set `ttn-soundkit@ttn`
+       - With *password* set: `NNSXS.G4OV6FZSVSHDK5LPRIJ2YHEV7FDFP6OS5SKADCI.DDSFJ45U7LMQP3XXFGEAIUBB5PUOIGQRCKBBWWLQ4ZBGTOC75ICA`
+    c. When ready click `Update` to save your server settings.
+ 4. Set `Topic` to: `v3/+/devices/+/up` to see all traffic from all sound sensors.
+
+
+
+
+
+
+APIkey Soundkit application in TTN:
+NNSXS.E5TCZ23PZLIJ5K3Z2FYIODDRD3SMJ3YIXNHOBJQ.UGZPEMSJ4CQSOU3P4M5KJ7ZWZRIZDEN5AF35CT24EJYV22JBDB4A
+
+ESP32 LoRa soundkit with MEMS: 
+
+
+
+
+
+RPI400 at: 192.168.20.216
 
