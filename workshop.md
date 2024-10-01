@@ -1,3 +1,6 @@
+# Kownledge
+For this workshop, knowledge of the participant is expected at the level of **intermediate**. 
+
 # Required material
 
  - Laptop (to install the OS on a micro SD card)
@@ -6,18 +9,15 @@
  - MicroSD card 32 GB or more. (Do consider using a Extreme XDHC card or equivalent because of wear out due to extensive read-write).
  - UTP network cable to connect to wired internet. 
  - micro-hdmi to hdmi cable to connect to a monitor.
- - A monitor with HDMI. (as an alterative consider a *hdmi to usb adapter* to have your laptop act as a monitor uring the camera app with Windows. These adapters can be puchased from Amazon for less than 9 Euros).
+ - A monitor with HDMI. (as an alterative consider a *hdmi to usb adapter* to have your laptop act as a monitor uring the camera app with Windows. These adapters can be puchased from Amazon for less than 9 Euros).
  - USB keyboard.
  
  *Note: Although this readme was developed using a Raspberry Pi 400, compatible minicomputers are likley to be useable. This was not tested.*
  
-# Installation
-Installation of the required software can be done in multiple ways. This howto will use Docker compose to streamline installation. 
-
 ## Warning:
 It is known that some docker containers for this workshop will not work on 32-bit OS. Therefore install only a 64-bit OS for this hwowto.
 
-# Install OS on micro SD card
+## Install OS on micro SD card
 More extensive help can be found at [Getting started with your Raspberry Pi](https://www.raspberrypi.com/documentation/computers/getting-started.html).
 
  1. Install Raspberry Pi Imager; Download ([here](https://www.raspberrypi.com/software/) the latest version) on the OS of your laptop.
@@ -41,7 +41,7 @@ More extensive help can be found at [Getting started with your Raspberry Pi](htt
  9. The installer starts downloading the image and write it to the micoSD card. 
  10. After the installer finalised writing, place the storage-medium in your Raspberry Pi and boot it.
  
-# Finalising the installation. 
+## Finalising the installation. 
 
  1. Login to your raspberry with the user name and credentials provided with step 6b.
  2. Ensure that you have connection to the network or internet. type `$ ip a` to see the network setting
@@ -62,8 +62,9 @@ In Paragraph **Install OS on micro SD card** we enabled SSH at 6.
 
 SSH can be used from the command-line of any OS. 
 
-
 # Install software. 
+*Installation of the software can be done in multiple ways. This howto will use Docker compose to streamline installation.*
+
 For this howto, the following software is required:
 
  - git,
@@ -185,17 +186,47 @@ A gracefull shutdown of your Raspberry Pi uses: `$ sudo shutdown -h 0` will resu
 ## Architecture
 
 
+## MariaDB
+The MariaDB is managed using the Database Management System (DBMS) PHPMyAdmin. To access PHPMyAdmin go to `http://<ip-address>:8086` in your browser and login with your credentials.
+
+ 1. [Create a used and database named `sound`.](#head001)
+ 2. [Create a table in the database named `sound`.](#head002)
+
+### <a name="head001"></a>1. Create user and database
+
+Use the following SQL statement to create the user `sound` and a database with the same name:
+
+```
+CREATE USER 'sound'@'%' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%';GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
+```
+
+### <a name="head002"></a>2. Create table
+Use the following SQL statement to create the table `sound` in the database with the name `sound`:
+
+```
+CREATE TABLE `sound`.`sound` (`id` INT NOT NULL AUTO_INCREMENT , `daytime` DATETIME NOT NULL , `devid` TEXT NOT NULL , `la_min` FLOAT NOT NULL , `la_max` FLOAT NOT NULL , `la_avg` FLOAT NOT NULL , `la_31_5` FLOAT NOT NULL , `la_63` FLOAT NOT NULL , `la_125` FLOAT NOT NULL , `la_250` FLOAT NOT NULL , `la_500` FLOAT NOT NULL , `la_1000` FLOAT NOT NULL , `la_2000` FLOAT NOT NULL , `la_4000` FLOAT NOT NULL , `la_8000` FLOAT NOT NULL , `lc_min` FLOAT NOT NULL , `lc_max` FLOAT NOT NULL , `lc_avg` FLOAT NOT NULL , `lc_31_5` FLOAT NOT NULL , `lc_63` FLOAT NOT NULL , `lc_125` FLOAT NOT NULL , `lc_250` FLOAT NOT NULL , `lc_500` FLOAT NOT NULL , `lc_1000` FLOAT NOT NULL , `lc_2000` FLOAT NOT NULL , `lc_4000` FLOAT NOT NULL , `lc_8000` FLOAT NOT NULL , `lz_min` FLOAT NOT NULL , `lz_max` FLOAT NOT NULL , `lz_avg` FLOAT NOT NULL , `lz_31_5` FLOAT NOT NULL , `lz_63` FLOAT NOT NULL , `lz_125` FLOAT NOT NULL , `lz_250` FLOAT NOT NULL , `lz_500` FLOAT NOT NULL , `lz_1000` FLOAT NOT NULL , `lz_2000` FLOAT NOT NULL , `lz_4000` FLOAT NOT NULL , `lz_8000` FLOAT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+```
 
 ## Node-Red
 
 ### Import flow
 For this workshop we have prepared a [flow](flow1.json) that we will import in Node-Red. 
 
+ 1. Type `ctrl-i` in Node-Red. The import dialogue will open.
+ 2. Click **Select a file to import** and browse in the repository to the file named [flow1](flow1.json).
+ 3. Click **import** 
+    - if you are prompted that there are existing nodes, click **Import copy**.
+ 4. Click ** Deploy** to activate your configuration. 
+
 ### Configure nodes
+
+Now the flow is imported we have to configure the MQTT client and the MySQL-node. 
 
 #### MQTT-client node
 
-Before your execute these steps you have to retrive the device-id of your sound sensor. This can be done at your application at TTN or with the administrators of IoT-Apeldoorn. In the following instructions replace <your-sound-device-ID> with the device-id of your sound sensor.
+*Before your execute these steps you have to retrieve the device-id of your sound sensor. This can be done at your application at TTN or with the administrators of IoT-Apeldoorn.*
+
+*In the following instructions replace <your-sound-device-ID> with the device-id of your sound sensor.*
 
  1. Configure your MQTT-in-node by *dubble-clicking* on it.
  2. Click on **+** to add a new MQTT broker config. 
@@ -223,25 +254,6 @@ Before your execute these steps you have to retrive the device-id of your sound 
  3. Set Click **Done** to save your node settings.
  4. Click **Deploy** to activate your changes.
 
-##### Configure node
-
-
-##### Add MySQL node
-When the MySQL-node is not installed, take these steps to add the node:
-
- 1. Type `alt-shit-P` or 
-    a. click on the 3-bars on the top-right of your screen
-    b. click on `Manage palette`
- 2. Select tab `Install`
- 3. in `search modules` type *node-red-node-mysql* and click `install`. 
- 
-
-
-
-APIkey Soundkit application in TTN:
-NNSXS.E5TCZ23PZLIJ5K3Z2FYIODDRD3SMJ3YIXNHOBJQ.UGZPEMSJ4CQSOU3P4M5KJ7ZWZRIZDEN5AF35CT24EJYV22JBDB4A
-
-ESP32 LoRa soundkit with MEMS: 
 
 
 
@@ -251,25 +263,6 @@ RPI400 at: 192.168.20.216
 
 
 
-
-## MySQL
-
-The 
-
-### Create user and database
-
-The following SQL statement can be used to create the user `sound` and a database with the same name:
-
-```
-CREATE USER 'sound'@'%' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%';GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
-```
-
-### Table
-The following SQL statement can be used to create the table `sound` in the database with the name `sound`:
-
-```
-CREATE TABLE `sound`.`sound` (`id` INT NOT NULL AUTO_INCREMENT , `daytime` DATETIME NOT NULL , `devid` TEXT NOT NULL , `la_min` FLOAT NOT NULL , `la_max` FLOAT NOT NULL , `la_avg` FLOAT NOT NULL , `la_31_5` FLOAT NOT NULL , `la_63` FLOAT NOT NULL , `la_125` FLOAT NOT NULL , `la_250` FLOAT NOT NULL , `la_500` FLOAT NOT NULL , `la_1000` FLOAT NOT NULL , `la_2000` FLOAT NOT NULL , `la_4000` FLOAT NOT NULL , `la_8000` FLOAT NOT NULL , `lc_min` FLOAT NOT NULL , `lc_max` FLOAT NOT NULL , `lc_avg` FLOAT NOT NULL , `lc_31_5` FLOAT NOT NULL , `lc_63` FLOAT NOT NULL , `lc_125` FLOAT NOT NULL , `lc_250` FLOAT NOT NULL , `lc_500` FLOAT NOT NULL , `lc_1000` FLOAT NOT NULL , `lc_2000` FLOAT NOT NULL , `lc_4000` FLOAT NOT NULL , `lc_8000` FLOAT NOT NULL , `lz_min` FLOAT NOT NULL , `lz_max` FLOAT NOT NULL , `lz_avg` FLOAT NOT NULL , `lz_31_5` FLOAT NOT NULL , `lz_63` FLOAT NOT NULL , `lz_125` FLOAT NOT NULL , `lz_250` FLOAT NOT NULL , `lz_500` FLOAT NOT NULL , `lz_1000` FLOAT NOT NULL , `lz_2000` FLOAT NOT NULL , `lz_4000` FLOAT NOT NULL , `lz_8000` FLOAT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
-```
 
 
 ## Node-Red
@@ -283,3 +276,18 @@ The template node is used to compose a SQL INSERT statement that will insert the
 ```
 INSERT INTO `sound` (`daytime`,`devid`,`la_min`,`la_max`,`la_avg`,`la_31_5`,`la_63`,`la_125`,`la_250`,`la_500`,`la_1000`,`la_2000`,`la_4000`,`la_8000`,`lc_min`,`lc_max`,`lc_avg`,`lc_31_5`,`lc_63`,`lc_125`,`lc_250`,`lc_500`,`lc_1000`,`lc_2000`,`lc_4000`,`lc_8000`,`lz_min`,`lz_max`,`lz_avg`,`lz_31_5`,`lz_63`,`lz_125`,`lz_250`,`lz_500`,`lz_1000`,`lz_2000`,`lz_4000`,`lz_8000`) VALUES ("{{payload.daytime}}","{{payload.devid}}",{{payload.la_min}},{{payload.la_max}},{{payload.la_avg}},{{payload.la_31_5}},{{payload.la_63}},{{payload.la_125}},{{payload.la_250}},{{payload.la_500}},{{payload.la_1000}},{{payload.la_2000}},{{payload.la_4000}},{{payload.la_8000}},{{payload.lc_min}},{{payload.lc_max}},{{payload.lc_avg}},{{payload.lc_31_5}},{{payload.lc_63}},{{payload.lc_125}},{{payload.lc_250}},{{payload.lc_500}},{{payload.lc_1000}},{{payload.lc_2000}},{{payload.lc_4000}},{{payload.lc_8000}},{{payload.lz_min}},{{payload.lz_max}},{{payload.lz_avg}},{{payload.lz_31_5}},{{payload.lz_63}},{{payload.lz_125}},{{payload.lz_250}},{{payload.lz_500}},{{payload.lz_1000}},{{payload.lz_2000}},{{payload.lz_4000}},{{payload.lz_8000}})
 ```
+
+
+# Troubleshooting
+
+
+## No MySQL node
+When the MySQL-node is not installed, take these steps to add the node:
+
+ 1. Type `alt-shit-P` or 
+    a. click on the 3-bars on the top-right of your screen
+    b. click on `Manage palette`
+ 2. Select tab `Install`
+ 3. in `search modules` type *node-red-node-mysql* and click `install`. 
+ 
+
