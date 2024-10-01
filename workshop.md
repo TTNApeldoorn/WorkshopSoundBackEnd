@@ -1,7 +1,7 @@
 # Required material
 
  - Laptop (to install the OS on a micro SD card)
- - Raspberry Pi 4 or higher
+ - Raspberry Pi 4 or higher with preferrably 4G RAM or more. 
  - 5V power supply for the selected Raspberry Pi.
  - MicroSD card 32 GB or more. (Do consider using a Extreme XDHC card or equivalent because of wear out due to extensive read-write).
  - UTP network cable to connect to wired internet. 
@@ -9,7 +9,7 @@
  - A monitor with HDMI. (as an alterative consider a *hdmi to usb adapter* to have your laptop act as a monitor uring the camera app with Windows. These adapters can be puchased from Amazon for less than 9 Euros).
  - USB keyboard.
  
- *Note: Although this readme was developed using a Raspberry Pi 4000, compatible minicomputers are likley to be useable. This was not tested.*
+ *Note: Although this readme was developed using a Raspberry Pi 400, compatible minicomputers are likley to be useable. This was not tested.*
  
 # Installation
 Installation of the required software can be done in multiple ways. This howto will use Docker compose to streamline installation. 
@@ -173,14 +173,12 @@ When you see this screen PHPMyAdmin and MariaDB are ready to be used.
  
  
 
-# Starting and stopping
-To start the Docker containers type `$ cd ~/WorkshopSoundBackEnd && docker-compose up -d`. To stop the Docker containers type `$ cd ~/WorkshopSoundBackEnd && docker-compose down`. 
+# Starting and stopping your Docker containers
+To start the Docker containers type: `$ cd ~/WorkshopSoundBackEnd && docker-compose up -d`. 
 
-A gracefull shutdown of your Raspberry Pi using `$ sudo shutdown -h 0` will result in a clean shutdown of your Docker containers. 
+To stop the Docker containers type: `$ cd ~/WorkshopSoundBackEnd && docker-compose down`. 
 
-
-
-
+A gracefull shutdown of your Raspberry Pi uses: `$ sudo shutdown -h 0` will result in a clean shutdown of your Docker containers. 
 
 # Building your sond sensor backend
 
@@ -190,11 +188,17 @@ A gracefull shutdown of your Raspberry Pi using `$ sudo shutdown -h 0` will resu
 
 ## Node-Red
 
- 1. Add the MQTT node to your flow: drag and drop MQTT-in-node to your flow. 
+### Import flow
+For this workshop we have prepared a [flow](flow1.json) that we will import in Node-Red. 
 
-    ![draganddropmqttinnodetoflow](nraddmqtt.png)
- 2. Configure your MQTT-in-node by *dubble-clicking* on it.
- 3. Click on **+** to add a new MQTT broker config. 
+### Configure nodes
+
+#### MQTT-client node
+
+Before your execute these steps you have to retrive the device-id of your sound sensor. This can be done at your application at TTN or with the administrators of IoT-Apeldoorn. In the following instructions replace <your-sound-device-ID> with the device-id of your sound sensor.
+
+ 1. Configure your MQTT-in-node by *dubble-clicking* on it.
+ 2. Click on **+** to add a new MQTT broker config. 
     a. In tab *Connection* set: 
        - With *Name* set `TTN Soundkit`
        - With *Server* set `eu1.cloud.thethings.network`
@@ -202,10 +206,35 @@ A gracefull shutdown of your Raspberry Pi using `$ sudo shutdown -h 0` will resu
        - With *Username* set `ttn-soundkit@ttn`
        - With *password* set: `NNSXS.G4OV6FZSVSHDK5LPRIJ2YHEV7FDFP6OS5SKADCI.DDSFJ45U7LMQP3XXFGEAIUBB5PUOIGQRCKBBWWLQ4ZBGTOC75ICA`
     c. When ready click `Update` to save your server settings.
- 4. Set `Topic` to: `v3/+/devices/+/up` to see all traffic from all sound sensors.
+ 3. Set *Topic* to: `v3/+/devices/<your-sound-device-ID>/up` to see all traffic from all sound sensors.
+ 4. Set Click **Done** to save your node settings.
+ 5. Click **Deploy** to activate your changes.
+ 
+#### MySQL node
+
+ 1. Configure your MySQL-node by *dubble-clicking* on it.
+ 2. Click on **+** to add a new MySQL databse.
+   - With *name* set `Sound database`
+   - With *host* set `127.0.0.1` or `localhost`
+   - With *user* set `sound`
+   - With *Password* set `sound`
+   - With *Database* set `sound`
+   - When ready click `Update` to save your server settings.
+ 3. Set Click **Done** to save your node settings.
+ 4. Click **Deploy** to activate your changes.
+
+##### Configure node
 
 
+##### Add MySQL node
+When the MySQL-node is not installed, take these steps to add the node:
 
+ 1. Type `alt-shit-P` or 
+    a. click on the 3-bars on the top-right of your screen
+    b. click on `Manage palette`
+ 2. Select tab `Install`
+ 3. in `search modules` type *node-red-node-mysql* and click `install`. 
+ 
 
 
 
@@ -220,3 +249,37 @@ ESP32 LoRa soundkit with MEMS:
 
 RPI400 at: 192.168.20.216
 
+
+
+
+## MySQL
+
+The 
+
+### Create user and database
+
+The following SQL statement can be used to create the user `sound` and a database with the same name:
+
+```
+CREATE USER 'sound'@'%' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%';GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
+```
+
+### Table
+The following SQL statement can be used to create the table `sound` in the database with the name `sound`:
+
+```
+CREATE TABLE `sound`.`sound` (`id` INT NOT NULL AUTO_INCREMENT , `daytime` DATETIME NOT NULL , `devid` TEXT NOT NULL , `la_min` FLOAT NOT NULL , `la_max` FLOAT NOT NULL , `la_avg` FLOAT NOT NULL , `la_31_5` FLOAT NOT NULL , `la_63` FLOAT NOT NULL , `la_125` FLOAT NOT NULL , `la_250` FLOAT NOT NULL , `la_500` FLOAT NOT NULL , `la_1000` FLOAT NOT NULL , `la_2000` FLOAT NOT NULL , `la_4000` FLOAT NOT NULL , `la_8000` FLOAT NOT NULL , `lc_min` FLOAT NOT NULL , `lc_max` FLOAT NOT NULL , `lc_avg` FLOAT NOT NULL , `lc_31_5` FLOAT NOT NULL , `lc_63` FLOAT NOT NULL , `lc_125` FLOAT NOT NULL , `lc_250` FLOAT NOT NULL , `lc_500` FLOAT NOT NULL , `lc_1000` FLOAT NOT NULL , `lc_2000` FLOAT NOT NULL , `lc_4000` FLOAT NOT NULL , `lc_8000` FLOAT NOT NULL , `lz_min` FLOAT NOT NULL , `lz_max` FLOAT NOT NULL , `lz_avg` FLOAT NOT NULL , `lz_31_5` FLOAT NOT NULL , `lz_63` FLOAT NOT NULL , `lz_125` FLOAT NOT NULL , `lz_250` FLOAT NOT NULL , `lz_500` FLOAT NOT NULL , `lz_1000` FLOAT NOT NULL , `lz_2000` FLOAT NOT NULL , `lz_4000` FLOAT NOT NULL , `lz_8000` FLOAT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+```
+
+
+## Node-Red
+
+### Function 1
+
+### Template node
+
+The template node is used to compose a SQL INSERT statement that will insert the received measurements:
+
+```
+INSERT INTO `sound` (`daytime`,`devid`,`la_min`,`la_max`,`la_avg`,`la_31_5`,`la_63`,`la_125`,`la_250`,`la_500`,`la_1000`,`la_2000`,`la_4000`,`la_8000`,`lc_min`,`lc_max`,`lc_avg`,`lc_31_5`,`lc_63`,`lc_125`,`lc_250`,`lc_500`,`lc_1000`,`lc_2000`,`lc_4000`,`lc_8000`,`lz_min`,`lz_max`,`lz_avg`,`lz_31_5`,`lz_63`,`lz_125`,`lz_250`,`lz_500`,`lz_1000`,`lz_2000`,`lz_4000`,`lz_8000`) VALUES ("{{payload.daytime}}","{{payload.devid}}",{{payload.la_min}},{{payload.la_max}},{{payload.la_avg}},{{payload.la_31_5}},{{payload.la_63}},{{payload.la_125}},{{payload.la_250}},{{payload.la_500}},{{payload.la_1000}},{{payload.la_2000}},{{payload.la_4000}},{{payload.la_8000}},{{payload.lc_min}},{{payload.lc_max}},{{payload.lc_avg}},{{payload.lc_31_5}},{{payload.lc_63}},{{payload.lc_125}},{{payload.lc_250}},{{payload.lc_500}},{{payload.lc_1000}},{{payload.lc_2000}},{{payload.lc_4000}},{{payload.lc_8000}},{{payload.lz_min}},{{payload.lz_max}},{{payload.lz_avg}},{{payload.lz_31_5}},{{payload.lz_63}},{{payload.lz_125}},{{payload.lz_250}},{{payload.lz_500}},{{payload.lz_1000}},{{payload.lz_2000}},{{payload.lz_4000}},{{payload.lz_8000}})
+```
