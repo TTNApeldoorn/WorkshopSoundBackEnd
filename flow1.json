@@ -1,6 +1,6 @@
 [
     {
-        "id": "ab0e85b98180ebe7",
+        "id": "6c1e75ee143f1abb",
         "type": "tab",
         "label": "Sound",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "dc9e2f2b2ff086cd",
+        "id": "6a39b71c7fb9b833",
         "type": "mqtt in",
-        "z": "ab0e85b98180ebe7",
+        "z": "6c1e75ee143f1abb",
         "name": "",
         "topic": "v3/+/devices/soundkit-027/up",
         "qos": "2",
@@ -24,15 +24,15 @@
         "y": 100,
         "wires": [
             [
-                "8b34792e21cf6c4c",
-                "7b3818fa101c78e6"
+                "d1f10b41bd8254a2",
+                "37a3981a782ae02e"
             ]
         ]
     },
     {
-        "id": "8b34792e21cf6c4c",
+        "id": "d1f10b41bd8254a2",
         "type": "debug",
-        "z": "ab0e85b98180ebe7",
+        "z": "6c1e75ee143f1abb",
         "name": "debug 1",
         "active": true,
         "tosidebar": true,
@@ -46,9 +46,9 @@
         "wires": []
     },
     {
-        "id": "ed76991cb5d9504a",
+        "id": "c62707d40e3b3ba3",
         "type": "mysql",
-        "z": "ab0e85b98180ebe7",
+        "z": "6c1e75ee143f1abb",
         "mydb": "8ccde022098f31bd",
         "name": "",
         "x": 910,
@@ -58,9 +58,9 @@
         ]
     },
     {
-        "id": "7b3818fa101c78e6",
+        "id": "37a3981a782ae02e",
         "type": "function",
-        "z": "ab0e85b98180ebe7",
+        "z": "6c1e75ee143f1abb",
         "name": "Conversion",
         "func": "// Documentation is in tab \"Description\"\n\n// Create empty objects \nlet msg2 = {};\nmsg2.payload = {}\n\n// Convert date-time from TTN into format that SQL accepts. e.g.: shorten string and replace \"T\" for a space.\nmsg2.payload.daytime = msg.payload.received_at.slice(0, 19).replace('T', ' ');\n\n// Add device-id to identify teh source of the data. \nmsg2.payload.devid = msg.payload.end_device_ids.device_id;\n\n// Add indvidual values from sound sensor to name value pairs for readability. \nmsg2.payload.la_min  = msg.payload.uplink_message.decoded_payload.la.min;\nmsg2.payload.la_max = msg.payload.uplink_message.decoded_payload.la.max;\nmsg2.payload.la_avg  = msg.payload.uplink_message.decoded_payload.la.avg;\nmsg2.payload.la_31_5 = msg.payload.uplink_message.decoded_payload.la.spectrum[0];\nmsg2.payload.la_63 = msg.payload.uplink_message.decoded_payload.la.spectrum[1];\nmsg2.payload.la_125 = msg.payload.uplink_message.decoded_payload.la.spectrum[2];\nmsg2.payload.la_250 = msg.payload.uplink_message.decoded_payload.la.spectrum[3];\nmsg2.payload.la_500 = msg.payload.uplink_message.decoded_payload.la.spectrum[4];\nmsg2.payload.la_1000 = msg.payload.uplink_message.decoded_payload.la.spectrum[5];\nmsg2.payload.la_2000 = msg.payload.uplink_message.decoded_payload.la.spectrum[6];\nmsg2.payload.la_4000 = msg.payload.uplink_message.decoded_payload.la.spectrum[7];\nmsg2.payload.la_8000 = msg.payload.uplink_message.decoded_payload.la.spectrum[8];\nmsg2.payload.lc_min = msg.payload.uplink_message.decoded_payload.lc.min;\nmsg2.payload.lc_max = msg.payload.uplink_message.decoded_payload.lc.max;\nmsg2.payload.lc_avg = msg.payload.uplink_message.decoded_payload.lc.avg;\nmsg2.payload.lc_31_5 = msg.payload.uplink_message.decoded_payload.lc.spectrum[0];\nmsg2.payload.lc_63 = msg.payload.uplink_message.decoded_payload.lc.spectrum[1];\nmsg2.payload.lc_125 = msg.payload.uplink_message.decoded_payload.lc.spectrum[2];\nmsg2.payload.lc_250 = msg.payload.uplink_message.decoded_payload.lc.spectrum[3];\nmsg2.payload.lc_500 = msg.payload.uplink_message.decoded_payload.lc.spectrum[4];\nmsg2.payload.lc_1000 = msg.payload.uplink_message.decoded_payload.lc.spectrum[5];\nmsg2.payload.lc_2000 = msg.payload.uplink_message.decoded_payload.lc.spectrum[6];\nmsg2.payload.lc_4000 = msg.payload.uplink_message.decoded_payload.lc.spectrum[7];\nmsg2.payload.lc_8000 = msg.payload.uplink_message.decoded_payload.lc.spectrum[8];\nmsg2.payload.lz_min = msg.payload.uplink_message.decoded_payload.lz.min;\nmsg2.payload.lz_max = msg.payload.uplink_message.decoded_payload.lz.max;\nmsg2.payload.lz_avg = msg.payload.uplink_message.decoded_payload.lz.avg;\nmsg2.payload.lz_31_5 = msg.payload.uplink_message.decoded_payload.lz.spectrum[0];\nmsg2.payload.lz_63 = msg.payload.uplink_message.decoded_payload.lz.spectrum[1];\nmsg2.payload.lz_125 = msg.payload.uplink_message.decoded_payload.lz.spectrum[2];\nmsg2.payload.lz_250 = msg.payload.uplink_message.decoded_payload.lz.spectrum[3];\nmsg2.payload.lz_500 = msg.payload.uplink_message.decoded_payload.lz.spectrum[4];\nmsg2.payload.lz_1000 = msg.payload.uplink_message.decoded_payload.lz.spectrum[5];\nmsg2.payload.lz_2000 = msg.payload.uplink_message.decoded_payload.lz.spectrum[6];\nmsg2.payload.lz_4000 = msg.payload.uplink_message.decoded_payload.lz.spectrum[7];\nmsg2.payload.lz_8000 = msg.payload.uplink_message.decoded_payload.lz.spectrum[8];\n\n// Return composed message for QSL insert.\nreturn msg2;",
         "outputs": 1,
@@ -73,27 +73,27 @@
         "y": 100,
         "wires": [
             [
-                "ccf3de189256c57b"
+                "b2463b9a060f6852"
             ]
         ],
         "info": "\r\n/* get LZ spectrum\r\n    decoded.lz.spectrum = [];\r\n    for( j=0; j<len; j++) \r\n      decoded.lz.spectrum[j] = c * bytes[i++];\r\n   \r\n    // convert LZ spectrum to LA\r\n    decoded.la.spectrum = [];\r\n    for( j=0; j<len; j++) \r\n      decoded.la.spectrum[j] = decoded.lz.spectrum[j] + aWeighting[j];\r\n\r\n    // convert LZ spectrum to LC\r\n    decoded.lc.spectrum = [];\r\n    for( j=0; j<len; j++) \r\n      decoded.lc.spectrum[j] = decoded.lz.spectrum[j] + cWeighting[j];\r\n*/"
     },
     {
-        "id": "ccf3de189256c57b",
+        "id": "b2463b9a060f6852",
         "type": "template",
-        "z": "ab0e85b98180ebe7",
+        "z": "6c1e75ee143f1abb",
         "name": "SQL insert to sound databse",
         "field": "topic",
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "mustache",
-        "template": "INSERT INTO `sound` (`daytime`,`devid`,`la_min`,`la_max`,`la_avg`,`la_31_5`,`la_63`,`la_125`,`la_250`,`la_500`,`la_1000`,`la_2000`,`la_4000`,`la_8000`,`lc_min`,`lc_max`,`lc_avg`,`lc_31_5`,`lc_63`,`lc_125`,`lc_250`,`lc_500`,`lc_1000`,`lc_2000`,`lc_4000`,`lc_8000`,`lz_min`,`lz_max`,`lz_avg`,`lz_31_5`,`lz_63`,`lz_125`,`lz_250`,`lz_500`,`lz_1000`,`lz_2000`,`lz_4000`,`lz_8000`) VALUES (\"{{payload.daytime}}\",\"{{payload.devid}}\",{{payload.la_min}},{{payload.la_max}},{{payload.la_avg}},{{payload.la_31_5}},{{payload.la_63}},{{payload.la_125}},{{payload.la_250}},{{payload.la_500}},{{payload.la_1000}},{{payload.la_2000}},{{payload.la_4000}},{{payload.la_8000}},{{payload.lc_min}},{{payload.lc_max}},{{payload.lc_avg}},{{payload.lc_31_5}},{{payload.lc_63}},{{payload.lc_125}},{{payload.lc_250}},{{payload.lc_500}},{{payload.lc_1000}},{{payload.lc_2000}},{{payload.lc_4000}},{{payload.lc_8000}},{{payload.lz_min}},{{payload.lz_max}},{{payload.lz_avg}},{{payload.lz_31_5}},{{payload.lz_63}},{{payload.lz_125}},{{payload.lz_250}},{{payload.lz_500}},{{payload.lz_1000}},{{payload.lz_2000}},{{payload.lz_4000}},{{payload.lz_8000}})",
+        "template": "INSERT INTO `sound` (`time`,`devid`,`la_min`,`la_max`,`la_avg`,`la_31_5`,`la_63`,`la_125`,`la_250`,`la_500`,`la_1000`,`la_2000`,`la_4000`,`la_8000`,`lc_min`,`lc_max`,`lc_avg`,`lc_31_5`,`lc_63`,`lc_125`,`lc_250`,`lc_500`,`lc_1000`,`lc_2000`,`lc_4000`,`lc_8000`,`lz_min`,`lz_max`,`lz_avg`,`lz_31_5`,`lz_63`,`lz_125`,`lz_250`,`lz_500`,`lz_1000`,`lz_2000`,`lz_4000`,`lz_8000`) VALUES (\"{{payload.daytime}}\",\"{{payload.devid}}\",{{payload.la_min}},{{payload.la_max}},{{payload.la_avg}},{{payload.la_31_5}},{{payload.la_63}},{{payload.la_125}},{{payload.la_250}},{{payload.la_500}},{{payload.la_1000}},{{payload.la_2000}},{{payload.la_4000}},{{payload.la_8000}},{{payload.lc_min}},{{payload.lc_max}},{{payload.lc_avg}},{{payload.lc_31_5}},{{payload.lc_63}},{{payload.lc_125}},{{payload.lc_250}},{{payload.lc_500}},{{payload.lc_1000}},{{payload.lc_2000}},{{payload.lc_4000}},{{payload.lc_8000}},{{payload.lz_min}},{{payload.lz_max}},{{payload.lz_avg}},{{payload.lz_31_5}},{{payload.lz_63}},{{payload.lz_125}},{{payload.lz_250}},{{payload.lz_500}},{{payload.lz_1000}},{{payload.lz_2000}},{{payload.lz_4000}},{{payload.lz_8000}})",
         "output": "str",
         "x": 660,
         "y": 100,
         "wires": [
             [
-                "ed76991cb5d9504a"
+                "c62707d40e3b3ba3"
             ]
         ]
     },
