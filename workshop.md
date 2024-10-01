@@ -166,6 +166,25 @@ When you see this screen PHPMyAdmin and MariaDB are ready to be used.
 
 ### Configuring Grafana.
 
+Grafana can be found at `http://<ip-address>:3000` in your browser. When Grafana is active the following screen is presented:
+
+![Grafana](Grafana_01.png)
+
+To login with Grafana use the following credentials:
+```
+ Username: admin
+ Password: admin
+```
+
+You are asked to change the password. **Click "Skip" for now** and change it later. 
+
+
+ - With name: set `Sound`
+ - Host URL: set: `mariadb:3306`
+ - Username `sound`
+ - Password `sound`
+ - Session timezone: `Europe/Berlin of +02:00`
+
 
  
  
@@ -236,6 +255,7 @@ Now the flow is imported we have to configure the MQTT client and the MySQL-node
     b. in tab * Security*  set:
        - With *Username* set `ttn-soundkit@ttn`
        - With *password* set: `NNSXS.G4OV6FZSVSHDK5LPRIJ2YHEV7FDFP6OS5SKADCI.DDSFJ45U7LMQP3XXFGEAIUBB5PUOIGQRCKBBWWLQ4ZBGTOC75ICA`
+       
     c. When ready click `Update` to save your server settings.
  3. Set *Topic* to: `v3/+/devices/<your-sound-device-ID>/up` to see all traffic from all sound sensors.
  4. Set Click **Done** to save your node settings.
