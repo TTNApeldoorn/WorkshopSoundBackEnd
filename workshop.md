@@ -15,7 +15,7 @@ For this workshop, knowledge of the participant is expected at the level of **in
  *Note: Although this readme was developed using a Raspberry Pi 400, compatible minicomputers are likley to be useable. This was not tested.*
  
 ## Warning:
-It is known that some docker containers for this workshop will not work on 32-bit OS. Therefore install only a 64-bit OS for this hwowto.
+It is known that some docker containers for this workshop will not work on 32-bit OS. Therefore install only a 64-bit OS for this howto.
 
 ## Install OS on micro SD card
 More extensive help can be found at [Getting started with your Raspberry Pi](https://www.raspberrypi.com/documentation/computers/getting-started.html).
@@ -138,10 +138,6 @@ Node-Red can be found at `http://<ip-address>:1880` in your browser. When Node-R
 
 When you see this screen Node-Red is ready to be used. 
 
-#### Setting a custom username and password for Node-Red
-
-/todo toevoegen
-
 ### Configuring MariaDB
 MariaDB is accessed at `<ip-address>:3306` and managed using PHPMyAdmin. 
 
@@ -165,7 +161,6 @@ When you see this screen PHPMyAdmin and MariaDB are ready to be used.
 **It is recommened to create a new user and associated password with the same rights as root in MariaDB and disable root after logging-in as this new user.**
 
 ### Configuring Grafana.
-
 Grafana can be found at `http://<ip-address>:3000` in your browser. When Grafana is active the following screen is presented:
 
 ![Grafana](Grafana_01.png)
@@ -176,50 +171,37 @@ To login with Grafana use the following credentials:
  Password: admin
 ```
 
-You are asked to change the password. **Click "Skip" for now** and change it later. 
-
-
- - With name: set `Sound`
- - Host URL: set: `mariadb:3306`
- - Username `sound`
- - Password `sound`
- - Session timezone: `Europe/Berlin of +02:00`
-
-
- 
- 
- 
- 
- 
- 
+You are asked to change the password. **Click "Skip" for now** and change it later.
 
 # Starting and stopping your Docker containers
 To start the Docker containers type: `$ cd ~/WorkshopSoundBackEnd && docker-compose up -d`. 
 
 To stop the Docker containers type: `$ cd ~/WorkshopSoundBackEnd && docker-compose down`. 
 
-A gracefull shutdown of your Raspberry Pi uses: `$ sudo shutdown -h 0` will result in a clean shutdown of your Docker containers. 
+A gracefull shutdown of your Raspberry Pi uses: `$ sudo shutdown -h 0` will result in a clean shutdown of your Docker containers and shutting down your Raspberry-Pi. 
 
-# Building your sond sensor backend
+# Building your sound sensor backend
+In the following steps we will configure the various components to make a dashboard that will present the values of the soundkit. 
 
 ## Architecture
+With this workshop the data from the soundkit is retrieved over MQTT from The Things Network with NodeRed. The flow in NodeRed stores the retrieved data in the sound database in MariaDB. Grafana retrieves the data of the soundkit from de sound database in MariaDB and shows it in a dashboard. (See component diagram in the figure below)
 
+![PlantUMLComponentDiagram.png](PlantUMLComponentDiagram.png)
 
 ## MariaDB
 The MariaDB is managed using the Database Management System (DBMS) PHPMyAdmin. To access PHPMyAdmin go to `http://<ip-address>:8086` in your browser and login with your credentials.
 
- 1. [Create a used and database named `sound`.](#head001)
- 2. [Create a table in the database named `sound`.](#head002)
+ 1. Create a used and database named `sound`.
+ 2. Create a table in the database named `sound`
 
-### <a name="head001"></a>1. Create user and database
-
+### Create user and database
 Use the following SQL statement to create the user `sound` and a database with the same name:
 
 ```
 CREATE USER 'sound'@'%' IDENTIFIED VIA mysql_native_password USING '***';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%';GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
 ```
 
-### <a name="head002"></a>2. Create table
+### Create table
 Use the following SQL statement to create the table `sound` in the database with the name `sound`:
 
 ```
