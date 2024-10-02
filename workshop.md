@@ -240,8 +240,7 @@ Now the flow is imported we have to configure the MQTT client and the MySQL-node
     b. in tab * Security*  set:
        - With *Username* set `ttn-soundkit@ttn`
        - With *password* set: `NNSXS.G4OV6FZSVSHDK5LPRIJ2YHEV7FDFP6OS5SKADCI.DDSFJ45U7LMQP3XXFGEAIUBB5PUOIGQRCKBBWWLQ4ZBGTOC75ICA`
-       
-    c. When ready click `Update` to save your server settings.
+       - When ready click `Update` to save your server settings.
  3. Set *Topic* to: `v3/+/devices/<your-sound-device-ID>/up` to see all traffic from all sound sensors.
  4. Set Click **Done** to save your node settings.
  5. Click **Deploy** to activate your changes.
