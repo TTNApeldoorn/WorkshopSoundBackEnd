@@ -1,7 +1,15 @@
 # Workshop Sound Backend
-Documentation for the workshop Soundkit backend for Meetup community IoT-Apeldoorn.
+Documentation for the workshop Soundkit backend for meetup of community IoT-Apeldoorn.
 
-# This workshop is work in progress.
+# This workshop has beta status.
+You are encouraged to test the workshop instructions and provide feedback through issues or pull requests. 
+
+# Workshop instructions
+Go to [Workshop instructions](workshop.md) for the workshop. 
+
+When finalised you will see something like this: 
+
+![SoundDash](SoundDash.jpg)
 
 ## License
 This project is free: You can redistribute it and/or modify it under the terms of a Creative Commons Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/) by IOT Apeldoorn (https://iotapeldoorn.nl/) E-mail: info@iotapeldoorn.nl

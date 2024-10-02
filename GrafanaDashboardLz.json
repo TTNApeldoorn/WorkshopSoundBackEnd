@@ -101,7 +101,7 @@
           },
           "editorMode": "builder",
           "format": "table",
-          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound LIMIT 50 ",
+          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -316,7 +316,7 @@
           },
           "editorMode": "builder",
           "format": "table",
-          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound LIMIT 50 ",
+          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -501,7 +501,7 @@
           },
           "editorMode": "builder",
           "format": "table",
-          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound LIMIT 50 ",
+          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound ",
           "refId": "A",
           "sql": {
             "columns": [
