@@ -1,0 +1,641 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 4,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "default": true,
+        "type": "mysql",
+        "uid": "bdzmr2x03rq4ga"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "fieldMinMax": false
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "calculate": false,
+        "cellGap": 1,
+        "cellValues": {
+          "unit": "dB"
+        },
+        "color": {
+          "exponent": 0.5,
+          "fill": "dark-orange",
+          "max": 60,
+          "min": 0,
+          "mode": "scheme",
+          "reverse": false,
+          "scale": "exponential",
+          "scheme": "Spectral",
+          "steps": 24
+        },
+        "exemplars": {
+          "color": "rgba(255,0,255,0.7)"
+        },
+        "filterValues": {
+          "le": 1e-9
+        },
+        "legend": {
+          "show": true
+        },
+        "rowsFrame": {
+          "layout": "auto"
+        },
+        "tooltip": {
+          "mode": "single",
+          "showColorScale": false,
+          "yHistogram": false
+        },
+        "yAxis": {
+          "axisLabel": "Octave",
+          "axisPlacement": "left",
+          "reverse": false,
+          "unit": "rothz"
+        }
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "dataset": "sound",
+          "datasource": {
+            "type": "mysql",
+            "uid": "bdzmr2x03rq4ga"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "time",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"31.5\"",
+                "parameters": [
+                  {
+                    "name": "lz_31_5",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"63\"",
+                "parameters": [
+                  {
+                    "name": "lz_63",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"125\"",
+                "parameters": [
+                  {
+                    "name": "lz_125",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"250\"",
+                "parameters": [
+                  {
+                    "name": "lz_250",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"500\"",
+                "parameters": [
+                  {
+                    "name": "lz_500",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"1000\"",
+                "parameters": [
+                  {
+                    "name": "lz_1000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"2000\"",
+                "parameters": [
+                  {
+                    "name": "lz_2000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"4000\"",
+                "parameters": [
+                  {
+                    "name": "lz_4000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"8000\"",
+                "parameters": [
+                  {
+                    "name": "lz_8000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "sound"
+        }
+      ],
+      "title": "Heatmap soundkit (Lz)",
+      "type": "heatmap"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "mysql",
+        "uid": "bdzmr2x03rq4ga"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dB"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [
+            "last",
+            "mean"
+          ],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "dataset": "sound",
+          "datasource": {
+            "type": "mysql",
+            "uid": "bdzmr2x03rq4ga"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "time",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"31.5\"",
+                "parameters": [
+                  {
+                    "name": "lz_31_5",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"63\"",
+                "parameters": [
+                  {
+                    "name": "lz_63",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"125\"",
+                "parameters": [
+                  {
+                    "name": "lz_125",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"250\"",
+                "parameters": [
+                  {
+                    "name": "lz_250",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"500\"",
+                "parameters": [
+                  {
+                    "name": "lz_500",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"1000\"",
+                "parameters": [
+                  {
+                    "name": "lz_1000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"2000\"",
+                "parameters": [
+                  {
+                    "name": "lz_2000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"4000\"",
+                "parameters": [
+                  {
+                    "name": "lz_4000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"8000\"",
+                "parameters": [
+                  {
+                    "name": "lz_8000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "sound"
+        }
+      ],
+      "title": "RTAlog Soundkit (Lz)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "mysql",
+        "uid": "bdzmr2x03rq4ga"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "continuous-GrYlRd"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "dB"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 19
+      },
+      "id": 3,
+      "options": {
+        "displayMode": "gradient",
+        "maxVizHeight": 300,
+        "minVizHeight": 16,
+        "minVizWidth": 8,
+        "namePlacement": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": false,
+        "sizing": "auto",
+        "valueMode": "color"
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "dataset": "sound",
+          "datasource": {
+            "type": "mysql",
+            "uid": "bdzmr2x03rq4ga"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "SELECT time, lz_31_5 AS \"31.5\", lz_63 AS \"63\", lz_125 AS \"125\", lz_250 AS \"250\", lz_500 AS \"500\", lz_1000 AS \"1000\", lz_2000 AS \"2000\", lz_4000 AS \"4000\", lz_8000 AS \"8000\" FROM sound.sound LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "time",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"31.5\"",
+                "parameters": [
+                  {
+                    "name": "lz_31_5",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"63\"",
+                "parameters": [
+                  {
+                    "name": "lz_63",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"125\"",
+                "parameters": [
+                  {
+                    "name": "lz_125",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"250\"",
+                "parameters": [
+                  {
+                    "name": "lz_250",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"500\"",
+                "parameters": [
+                  {
+                    "name": "lz_500",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"1000\"",
+                "parameters": [
+                  {
+                    "name": "lz_1000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"2000\"",
+                "parameters": [
+                  {
+                    "name": "lz_2000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"4000\"",
+                "parameters": [
+                  {
+                    "name": "lz_4000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "alias": "\"8000\"",
+                "parameters": [
+                  {
+                    "name": "lz_8000",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "sound"
+        }
+      ],
+      "title": "Spectrum soundkit (Lz)",
+      "type": "bargauge"
+    }
+  ],
+  "refresh": "5m",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Sound",
+  "uid": "ddzms77pptv5sa",
+  "version": 10,
+  "weekStart": ""
+}

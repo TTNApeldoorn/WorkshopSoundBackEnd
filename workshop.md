@@ -223,7 +223,7 @@ CREATE USER 'sound'@'%' IDENTIFIED VIA mysql_native_password USING '***';GRANT U
 Use the following SQL statement to create the table `sound` in the database with the name `sound`:
 
 ```
-CREATE TABLE `sound`.`sound` (`id` INT NOT NULL AUTO_INCREMENT , `time` DATETIME NOT NULL , `devid` TEXT NOT NULL , `la_min` FLOAT NOT NULL , `la_max` FLOAT NOT NULL , `la_avg` FLOAT NOT NULL , `la_31_5` FLOAT NOT NULL , `la_63` FLOAT NOT NULL , `la_125` FLOAT NOT NULL , `la_250` FLOAT NOT NULL , `la_500` FLOAT NOT NULL , `la_1000` FLOAT NOT NULL , `la_2000` FLOAT NOT NULL , `la_4000` FLOAT NOT NULL , `la_8000` FLOAT NOT NULL , `lc_min` FLOAT NOT NULL , `lc_max` FLOAT NOT NULL , `lc_avg` FLOAT NOT NULL , `lc_31_5` FLOAT NOT NULL , `lc_63` FLOAT NOT NULL , `lc_125` FLOAT NOT NULL , `lc_250` FLOAT NOT NULL , `lc_500` FLOAT NOT NULL , `lc_1000` FLOAT NOT NULL , `lc_2000` FLOAT NOT NULL , `lc_4000` FLOAT NOT NULL , `lc_8000` FLOAT NOT NULL , `lz_min` FLOAT NOT NULL , `lz_max` FLOAT NOT NULL , `lz_avg` FLOAT NOT NULL , `lz_31_5` FLOAT NOT NULL , `lz_63` FLOAT NOT NULL , `lz_125` FLOAT NOT NULL , `lz_250` FLOAT NOT NULL , `lz_500` FLOAT NOT NULL , `lz_1000` FLOAT NOT NULL , `lz_2000` FLOAT NOT NULL , `lz_4000` FLOAT NOT NULL , `lz_8000` FLOAT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
+CREATE TABLE `sound`.`sound` (`id` INT NOT NULL AUTO_INCREMENT , `time` TIME NOT NULL , `devid` TEXT NOT NULL , `la_min` FLOAT NOT NULL , `la_max` FLOAT NOT NULL , `la_avg` FLOAT NOT NULL , `la_31_5` FLOAT NOT NULL , `la_63` FLOAT NOT NULL , `la_125` FLOAT NOT NULL , `la_250` FLOAT NOT NULL , `la_500` FLOAT NOT NULL , `la_1000` FLOAT NOT NULL , `la_2000` FLOAT NOT NULL , `la_4000` FLOAT NOT NULL , `la_8000` FLOAT NOT NULL , `lc_min` FLOAT NOT NULL , `lc_max` FLOAT NOT NULL , `lc_avg` FLOAT NOT NULL , `lc_31_5` FLOAT NOT NULL , `lc_63` FLOAT NOT NULL , `lc_125` FLOAT NOT NULL , `lc_250` FLOAT NOT NULL , `lc_500` FLOAT NOT NULL , `lc_1000` FLOAT NOT NULL , `lc_2000` FLOAT NOT NULL , `lc_4000` FLOAT NOT NULL , `lc_8000` FLOAT NOT NULL , `lz_min` FLOAT NOT NULL , `lz_max` FLOAT NOT NULL , `lz_avg` FLOAT NOT NULL , `lz_31_5` FLOAT NOT NULL , `lz_63` FLOAT NOT NULL , `lz_125` FLOAT NOT NULL , `lz_250` FLOAT NOT NULL , `lz_500` FLOAT NOT NULL , `lz_1000` FLOAT NOT NULL , `lz_2000` FLOAT NOT NULL , `lz_4000` FLOAT NOT NULL , `lz_8000` FLOAT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB; 
 ```
 
 ## Node-Red
@@ -234,12 +234,15 @@ For this workshop we have prepared a [flow](flow1.json) that we will import in N
  1. Type `ctrl-i` in Node-Red. The import dialogue will open.
  2. Click **Select a file to import** and browse in the repository to the file named [flow1](flow1.json).
  3. Click **import** 
-    - if you are prompted that there are existing nodes, click **Import copy**.
+    - if you are prompted that there are existing nodes, click **Import copy**. 
  4. Click ** Deploy** to activate your configuration. 
-
+    - You are warned that *the workspace contains some nodes that are not properly configured*. We do this in the following steps. Click **Confirm deploy**.
+ 
 ### Configure nodes
 
-Now the flow is imported we have to configure the MQTT client and the MySQL-node. 
+Now the flow is imported we have to configure the MQTT client and the MySQL-node because there is no MQTT broker and no database configured. This is indicated 
+
+![NRImportedFlow](NRImportedFlow.jpg)
 
 #### MQTT-client node
 
@@ -265,49 +268,51 @@ Now the flow is imported we have to configure the MQTT client and the MySQL-node
 
  1. Configure your MySQL-node by *dubble-clicking* on it.
  2. Click on **+** to add a new MySQL databse.
-   - With *name* set `Sound database`
-   - With *host* set `127.0.0.1` or `localhost`
-   - With *user* set `sound`
-   - With *Password* set `sound`
-   - With *Database* set `sound`
-   - When ready click `Update` to save your server settings.
+    - With *name* set `Sound database`
+    - With *host* set `127.0.0.1` or `localhost`
+    - With *user* set `sound`
+    - With *Password* set `sound`
+    - With *Database* set `sound`
+    - When ready click `Update` to save your server settings.
  3. Set Click **Done** to save your node settings.
  4. Click **Deploy** to activate your changes.
 
+## Grafana
 
+In Grafana we have to add a connection to the database and add dashboards.
 
+### Add connection to database
 
+In Grafana:
 
+ 1. click in the menu on the left: Home > Connections > Add new connection.
+ 2. Search for `MySQL` in the search bar. 
+ 3. click on **MySQL**.
+ 4. On the top-right click om **Add new datasource**
+ 5. Configure the new datasource: 
+    - *Name*: `Sound`
+    - *Host URL*: `mariadb:3306`
+    - Authentication *Username*: `sound` (Same as for your sound database)
+    - Authentication *Password*: `sound` (Same as for your sound database)
+ 6. Click **Save & Test** 
+    - When you get `Database Connection OK` you are ready to continue. Else you have to verify your configuration. 
 
-RPI400 at: 192.168.20.216
+### Import Dashboards
 
+In Grafana: 
 
-
-
-
-## Node-Red
-
-### Function 1
-
-### Template node
-
-The template node is used to compose a SQL INSERT statement that will insert the received measurements:
-
-```
-INSERT INTO `sound` (`time`,`devid`,`la_min`,`la_max`,`la_avg`,`la_31_5`,`la_63`,`la_125`,`la_250`,`la_500`,`la_1000`,`la_2000`,`la_4000`,`la_8000`,`lc_min`,`lc_max`,`lc_avg`,`lc_31_5`,`lc_63`,`lc_125`,`lc_250`,`lc_500`,`lc_1000`,`lc_2000`,`lc_4000`,`lc_8000`,`lz_min`,`lz_max`,`lz_avg`,`lz_31_5`,`lz_63`,`lz_125`,`lz_250`,`lz_500`,`lz_1000`,`lz_2000`,`lz_4000`,`lz_8000`) VALUES ("{{payload.daytime}}","{{payload.devid}}",{{payload.la_min}},{{payload.la_max}},{{payload.la_avg}},{{payload.la_31_5}},{{payload.la_63}},{{payload.la_125}},{{payload.la_250}},{{payload.la_500}},{{payload.la_1000}},{{payload.la_2000}},{{payload.la_4000}},{{payload.la_8000}},{{payload.lc_min}},{{payload.lc_max}},{{payload.lc_avg}},{{payload.lc_31_5}},{{payload.lc_63}},{{payload.lc_125}},{{payload.lc_250}},{{payload.lc_500}},{{payload.lc_1000}},{{payload.lc_2000}},{{payload.lc_4000}},{{payload.lc_8000}},{{payload.lz_min}},{{payload.lz_max}},{{payload.lz_avg}},{{payload.lz_31_5}},{{payload.lz_63}},{{payload.lz_125}},{{payload.lz_250}},{{payload.lz_500}},{{payload.lz_1000}},{{payload.lz_2000}},{{payload.lz_4000}},{{payload.lz_8000}})
-```
-
-
-# Troubleshooting
-
-
-## No MySQL node
-When the MySQL-node is not installed, take these steps to add the node:
-
- 1. Type `alt-shit-P` or 
-    a. click on the 3-bars on the top-right of your screen
-    b. click on `Manage palette`
- 2. Select tab `Install`
- 3. in `search modules` type *node-red-node-mysql* and click `install`. 
- 
-
+ 1. click in the menu on the left: Home > Dashboards.
+ 2. In the top right, click on **New** > Import. 
+    - We will now import the preconfigured dashboards in to Grafana. 
+    - For this workshop we prepared 3 dashboards for a single Soundkit. 
+    - The dashboards are saved as a JSON struct in: 
+      - La: [GrafanaDashboardLa.json](GrafanaDashboardLa.json)
+      - Lc: [GrafanaDashboardLc.json](GrafanaDashboardLc.json)
+      - Lz: [GrafanaDashboardLz.json](GrafanaDashboardLz.json)
+ 3. For each dashboard we will copy the content of the file into the import field labelled *Import via dashboard JSON model*.
+ 4. Click **Load**. 
+ 5. Configure the new dashboard: 
+    - With *Name* set the type your imported. This is either Dashboard- La, Lc or Lz
+    - With *Unique identifier (UID)* click **Change uid** and change the UID to something else.
+    - Click **Import**.
+ 6. Your new dashboard is now available at *Dashboards* in Grafana. 
