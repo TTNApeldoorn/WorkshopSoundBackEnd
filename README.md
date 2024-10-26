@@ -1,8 +1,10 @@
 # Workshop Sound Backend
 Documentation for the workshop Soundkit backend for meetup of community IoT-Apeldoorn.
 
-# This workshop has beta status.
-You are encouraged to test the workshop instructions and provide feedback through issues or pull requests. 
+This workshop was planned for 20 November 2024. More information can be found at the [Meetup of IoT Apeldoorn](https://www.meetup.com/lora-network-in-apeldoorn-growing-meetup/events/303791214).
+
+# This workshop has been tested.
+You are encouraged to follow the workshop instructions and provide feedback through issues or pull requests. 
 
 # Workshop instructions
 Go to [Workshop instructions](workshop.md) for the workshop. 
