@@ -46,7 +46,7 @@ More extensive help can be found at [Getting started with your Raspberry Pi](htt
  
 ## Finalising the installation. 
 
- 1. Login to your raspberry with the user name and credentials provided with step 6b.
+ 1. Login to your raspberry with the user name and credentials provided with step 6b. **Logging in can be done at console or using SSH**. More information about remote access can be found at [Remote control over the local network](https://www.raspberrypi.com/documentation/computers/remote-access.html)
  2. Ensure that you have connection to the network or internet. type `$ ip a` to see the network setting
     currectly active. 
     - with `wlan0` you see a ip-address at `inet` when you are connected and received an ip-address over dhcp. 
@@ -85,7 +85,7 @@ Please note that the configuration used in this workshop lack some security meas
 **Only use this configuration on your local network, behind a firewall.**
  
 ## Install Git. 
-To install git give command `$ sudo apt install git` and type `y`(es) to continue installing. 
+To install git give command `$ sudo apt install git` and type `Y`(es) to continue installing. 
 As we are only using git to pull the repository used for this workshop, no further configuration is required. 
 
 ## Install Docker.
@@ -96,12 +96,12 @@ These instructions are taken from: https://dev.to/elalemanyo/how-to-install-dock
     If you are not logged in as the root, one option is to use the sudo prefix. However, you could also add your non-root user to the Docker group which will allow it to execute docker commands. 
     Run the following command: `$ sudo usermod -aG docker [user_name]` (Replace [user_name] with your username).
     - To verify if you have been added to the `docker` group run `$ groups ${USER}`. The result should contain `docker`.
- 3. Reboot the Raspberry Pi to let the changes take effect (or log-out and log-in with the user).
+ 3. Reboot the Raspberry Pi to let the changes take effect (or log-out and log-in with the user). Shutting down and rebooting your raspberry can be done with command: `$ sudo shutdown -r now`.
  4. Install Docker-Compose using apt: run command `$ sudo apt install docker-compose`.
- 5. Enable the Docker system service to start your containers on boot
- 6. After reboot. configure your Raspberry Pi to automatically run the Docker system service, whenever it 
-    boots up: `$ sudo systemctl enable docker`.
- 7. Run Hello World Container. run `$ docker run hello-world`. 
+ 5. Enable the Docker system service to start your containers on boot. Enable Docker service: `$ sudo systemctl enable docker`.
+ 6. Start Docker now: `$ sudo systemctl start docker`. 
+ 7. Verify Docker status: `$ sudo systemctl status docker`. You should see `active (running)` if Docker is running. Type `ctrl-c` to exit.
+ 8. Run Hello World Container. run `$ docker run hello-world`. 
     Once it goes through all the steps, the output should inform you that your installation appears to be working correctly.
     
 ## Install Node-Red, MariaDB, PHPMyAdmin and Grafana.
@@ -111,15 +111,86 @@ The docker containers for this workshop are preconfigured using docker-compose. 
  2. Clone the repository for this workshop: `$ git clone https://github.com/TTNApeldoorn/WorkshopSoundBackEnd.git`
  3. Go to the directory with repository you just cloned: `$ cd WorkshopSoundBackEnd`
  4. *Optional: Make some security settings to your applications. See: Appendix, additional suecurity settings.* 
- 4. Start the Docker containers with `$ docker-compose up -d`. Now the containers will start as daemon. When the start is successfull the following result will be presented: 
- 
-    ```
-    Restarting phpmyadmin ... done
-    Restarting mariadb    ... done
-    Restarting grafana    ... done
-    Restarting nodered    ... done
-    ```
- - Type `docker ps` to get a list of all containers installed and their status. 
+ 5. Start the Docker containers with `$ docker-compose up -d`. Now the containers will start as daemon. When the start is successfull a similar result as below will be presented. 
+ ```
+   $ docker-compose up -d
+   Creating network "workshopsoundbackend_default" with the default driver
+   Pulling nodered (nodered/node-red:latest)...
+   latest: Pulling from nodered/node-red
+   cf04c63912e1: Pull complete
+   69379ba43125: Pull complete
+   fd9c368217ce: Pull complete
+   a5d78783036a: Pull complete
+   ebdf104d1e8a: Pull complete
+   6da589a67dde: Pull complete
+   cca3769fa12f: Pull complete
+   4f4fb700ef54: Pull complete
+   cbd5f0062f33: Pull complete
+   041d3da84647: Pull complete
+   172a8f25a9da: Pull complete
+   061bf29ad236: Pull complete
+   b3521e9043d9: Pull complete
+   a1f8a6939c37: Pull complete
+   20f05b83c3d3: Pull complete
+   207c8bd4a00e: Pull complete
+   e114b7a0a618: Pull complete
+   Digest: sha256:7b635f720d9d1aba676925a93fcf20811bbb62b476752b896177faccb28e5ee9
+   Status: Downloaded newer image for nodered/node-red:latest
+   Pulling mariadb (lscr.io/linuxserver/mariadb:latest)...
+   latest: Pulling from linuxserver/mariadb
+   646ff129efa7: Pull complete
+   df25a931801a: Pull complete
+   c116abe7e7b3: Pull complete
+   ec142417d43e: Pull complete
+   ef02aa7fa9ff: Pull complete
+   9ae179c60632: Pull complete
+   50a6cae819b3: Pull complete
+   f99beb193855: Pull complete
+   Digest: sha256:336907b0ff5bf17b26e6e1aa4bfe39c0cfedc9c3b34e79e4bdec50a908273a56
+   Status: Downloaded newer image for lscr.io/linuxserver/mariadb:latest
+   Pulling phpmyadmin (lscr.io/linuxserver/phpmyadmin:latest)...
+   latest: Pulling from linuxserver/phpmyadmin
+   646ff129efa7: Already exists
+   df25a931801a: Already exists
+   c116abe7e7b3: Already exists
+   ec142417d43e: Already exists
+   ef02aa7fa9ff: Already exists
+   9ae179c60632: Already exists
+   9f71d972a377: Pull complete
+   69937b3cab0c: Pull complete
+   ffabe39a9a83: Pull complete
+   53119d10418a: Pull complete
+   Digest: sha256:435725b35183fb1ddbe0a2e82d19190833fffcccbc368a4b4b619a09a76e101a
+   Status: Downloaded newer image for lscr.io/linuxserver/phpmyadmin:latest
+   Pulling grafana (grafana/grafana-enterprise:)...
+   latest: Pulling from grafana/grafana-enterprise
+   cf04c63912e1: Already exists
+   b636826be61c: Pull complete
+   fcedf707d489: Pull complete
+   d5d0d9dc54a1: Pull complete
+   6185471f755b: Pull complete
+   28a98c1e0358: Pull complete
+   566e937223b0: Pull complete
+   d3b0c8e43480: Pull complete
+   5a904d27045e: Pull complete
+   4dab282a2a74: Pull complete
+   Digest: sha256:1283b133d3311bd31de9bb32adfab45e916e9ab6e472020d94a20324912bca80
+   Status: Downloaded newer image for grafana/grafana-enterprise:latest
+   Creating mariadb    ... done
+   Creating grafana    ... done
+   Creating phpmyadmin ... done
+   Creating nodered    ... done
+   ```
+ - Type `docker ps` to get a list of all containers installed and their status. When the containers have starte successfully, a similar result as below will be presented:
+   ```
+   $ docker ps
+   CONTAINER ID   IMAGE                                   COMMAND             CREATED              STATUS                        PORTS                                            NAMES
+   5b497ab9af04   nodered/node-red:latest                 "./entrypoint.sh"   About a minute ago   Up About a minute (healthy)                                                    nodered
+   cacfc5af830e   grafana/grafana-enterprise              "/run.sh"           About a minute ago   Up About a minute             0.0.0.0:3000->3000/tcp, :::3000->3000/tcp        grafana
+   f74b2790e3c1   lscr.io/linuxserver/phpmyadmin:latest   "/init"             About a minute ago   Up About a minute             443/tcp, 0.0.0.0:8086->80/tcp, :::8086->80/tcp   phpmyadmin
+   a37b37fed71d   lscr.io/linuxserver/mariadb:latest      "/init"             About a minute ago   Up About a minute             0.0.0.0:3306->3306/tcp, :::3306->3306/tcp        mariadb
+
+   ```
  - For a more detailed overview of your docker containers type: `docker-compose top`.
 
 Now the Docker containers are running we can access the individual applications.
@@ -194,15 +265,19 @@ With this workshop the data from the soundkit is retrieved over MQTT from The Th
 ## MariaDB
 The MariaDB is managed using the Database Management System (DBMS) PHPMyAdmin. To access PHPMyAdmin go to `http://<ip-address>:8086` in your browser and login with your credentials.
 
- 1. Create a used and database named `sound`.
+ 1. Create a user and database named `sound`.
  2. Create a table in the database named `sound`
 
 ### Create user and database
+
 Use the following SQL statement to create the user `sound` with password `sound` and a database with the same name:
 
+ 1. in PHPMyAdmin go to the SQL-tab and copy and paste the following  SQL statement
+ 
 ```
 CREATE USER 'sound'@'%' IDENTIFIED BY 'sound';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%';GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
 ```
+
 
 ### Create table
 Use the following SQL statement to create the table `sound` in the database with the name `sound`:
@@ -220,7 +295,7 @@ When the MySQL-node is not installed, take these steps to add the node:
     a. click on the 3-bars on the top-right of your screen
     b. click on `Manage palette`
  2. Select tab `Install`
- 3. in `search modules` type *node-red-node-mysql* and click `install`. 
+ 3. in `search modules` type *node-red-node-mysql* and click `install`.
  
 ### Import flow
 For this workshop we have prepared a [flow](flow1.json) that we will import in Node-Red. 
@@ -259,8 +334,8 @@ Now the flow is imported we have to configure the MQTT client and the MySQL-node
  
 #### MySQL node
 
- 1. Configure your MySQL-node by *dubble-clicking* on it.
- 2. Click on **+** to add a new MySQL databse.
+ 1. Configure your MySQL-node by *double-clicking* on it.
+ 2. Click on **+** to add a new MySQL database.
     - With *name* set `Sound database`
     - With *host* set `127.0.0.1` or `localhost`
     - With *user* set `sound`
@@ -278,7 +353,7 @@ In Grafana we have to add a connection to the database and add dashboards.
 
 In Grafana:
 
- 1. click in the menu on the left: Home > Connections > Add new connection.
+ 1. To add a new database connection to Grafana click in the menu on the left: Home > Connections > Add new connection.
  2. Search for `MySQL` in the search bar. 
  3. click on **MySQL**.
  4. On the top-right click om **Add new datasource**
@@ -290,26 +365,32 @@ In Grafana:
  6. Click **Save & Test** 
     - When you get `Database Connection OK` you are ready to continue. Else you have to verify your configuration. 
 
-### Import Dashboards
+### Importing Dashboards in Grafana
 
-In Grafana: 
+Follow these steps to import the pre-configured dashboards into Grafana. **Note**: Each dashboard must have a unique name and ID (UID) before completing the import.
 
- 1. click in the menu on the left: Home > Dashboards.
- 2. In the top right, click on **New** > Import. 
-    - We will now import the preconfigured dashboards in to Grafana. 
-    - For this workshop we prepared 3 dashboards for a single Soundkit. 
-    - The dashboards are saved as a JSON struct in: 
-      - La: [GrafanaDashboardLa.json](GrafanaDashboardLa.json)
-      - Lc: [GrafanaDashboardLc.json](GrafanaDashboardLc.json)
-      - Lz: [GrafanaDashboardLz.json](GrafanaDashboardLz.json)
- 3. For each dashboard we will copy the content of the file into the import field labelled *Import via dashboard JSON model*.
- 4. Click **Load**. 
- 5. Configure the new dashboard: 
-    - With *Name* set the type your imported. This is either Dashboard- La, Lc or Lz
-    - With *Unique identifier (UID)* click **Change uid** and change the UID to something else.
-    - Click **Import**.
- 6. Your new dashboard is now available at *Dashboards* in Grafana. 
+#### Preparation
+ 1. **Download the files**: Make sure you have downloaded the following files:
+    - **La Dashboard**: [GrafanaDashboardLa.json](GrafanaDashboardLa.json)
+    - **Lc Dashboard**: [GrafanaDashboardLc.json](GrafanaDashboardLc.json)
+    - **Lz Dashboard**: [GrafanaDashboardLz.json](GrafanaDashboardLz.json)
 
+#### Steps to Import Each Dashboard
+ 1. **Open Grafana and go to the import function**:
+    - In the left-hand menu, click **Home > Dashboards**.
+    - In the top right, click **New > Import**.
+ 2. **Import the dashboard file**:
+    - Open one of the downloaded JSON files (for example, `GrafanaDashboardLa.json`).
+    - Copy the entire content of the file and paste it into the field labeled *Import via dashboard JSON model* in Grafana.
+3. **Load and configure the dashboard**:
+    - Click **Load** to proceed with the import.
+    - **Set a clear name**: Name the dashboard to reflect its type, such as `Dashboard-La`, `Dashboard-Lc`, or `Dashboard-Lz`, depending on the file you are importing.
+    - **Set a unique identifier (UID)**: Click on **Change UID** and enter a unique identifier (for example, `La01`, `Lc01`, `Lz01`). This is required to prevent dashboards from overwriting each other.
+4. **Complete the import**:
+    - Click **Import** to add the dashboard.
+    - **Repeat steps 2 to 4 for each of the three dashboards** (`GrafanaDashboardLa.json`, `GrafanaDashboardLc.json`, and `GrafanaDashboardLz.json`) so each is imported and uniquely identified.
+
+Your new dashboards are now available under **Dashboards** in Grafana and ready for use.
 
 # License
 This project is free: You can redistribute it and/or modify it under the terms of a Creative Commons Attribution-NonCommercial 4.0 International License (http://creativecommons.org/licenses/by-nc/4.0/) by IOT Apeldoorn (https://iotapeldoorn.nl/) E-mail: info@iotapeldoorn.nl
