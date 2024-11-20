@@ -275,9 +275,8 @@ Use the following SQL statement to create the user `sound` with password `sound`
  1. in PHPMyAdmin go to the SQL-tab and copy and paste the following  SQL statement
  
 ```
-CREATE USER 'sound'@'%' IDENTIFIED BY 'sound';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%';GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
+CREATE USER 'sound'@'%' IDENTIFIED BY 'sound';GRANT USAGE ON *.* TO 'sound'@'%' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0; CREATE DATABASE IF NOT EXISTS `sound`;GRANT ALL PRIVILEGES ON `sound`.* TO 'sound'@'%'; GRANT ALL PRIVILEGES ON `sound\_%`.* TO 'sound'@'%'; 
 ```
-**Note:** In the case that PHPMyAdmin syntax checker presents a red dot to indicate a syntax error, you may click *layout* button below the text box to correct it.
 
 ### Create table
 Use the following SQL statement to create the table `sound` in the database with the name `sound`:
