@@ -1,0 +1,6 @@
+# Directories that contain configuration data of docker containers to make them persistent
+
+grafana/
+mariadb/
+node-red-data/
+phpmyadmin/
